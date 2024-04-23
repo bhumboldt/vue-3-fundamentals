@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Characters</title>
+</head>
+<body>
+<h2>Characters</h2>
+<div id="app">
+	<p v-if="characterNames.length === 0">No character data</p>
+	<p v-else>
+		<span v-for="(name, index) in characterNames">{{ name }}{{ index === characterNames.length - 1 ? '' : ', ' }}</span>
+	</p>
+
+
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+	// Vue 3
+	const { createApp } = Vue;
+
+	const app = createApp({
+		data: () => ({
+				characterNames: ['Luke Skywalker', 'Darth Vader', 'Obi-Wan Kenobi', 'Yoda']
+		})
+	});
+
+	app.mount('#app');
+</script>
+</body>
+</html>
