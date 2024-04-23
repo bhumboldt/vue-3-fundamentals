@@ -6,9 +6,21 @@
 <body>
 <h2>Characters</h2>
 <div id="app">
+
+	<label for="newCharacterName">New Character Name:</label>
+	<input type="text" v-model="newCharacter.name" @keyup.enter="addNewCharacter">
+
+	<h1>Favorite Characters</h1>
+	<ul>
+		<li v-for="favorite in favorites">{{ favorite }}</li>
+	</ul>
+
+	<h1>Characters</h1>
 	<p v-if="characterNames.length === 0">No character data</p>
 	<p v-else>
-		<span v-for="(name, index) in characterNames">{{ name }}{{ index === characterNames.length - 1 ? '' : ', ' }}</span>
+		<ul v-for="(name, index) in characterNames">
+			<li>{{ name }} <button @click="favoriteCharacter(name, $event)">Favorite</button></li>
+		</ul>
 	</p>
 
 
@@ -20,8 +32,22 @@
 
 	const app = createApp({
 		data: () => ({
-				characterNames: ['Luke Skywalker', 'Darth Vader', 'Obi-Wan Kenobi', 'Yoda']
-		})
+			characterNames: ['Luke Skywalker', 'Darth Vader', 'Obi-Wan Kenobi', 'Yoda'],
+			favorites: [],
+			newCharacter: {
+				name: ''
+			}
+		}),
+		methods: {
+			favoriteCharacter(name, event) {
+				this.favorites.push(name);
+				event.target.disabled = true;
+			},
+			addNewCharacter() {
+				this.characterNames.push(this.newCharacter.name);
+				this.newCharacter.name = '';
+			}
+		}
 	});
 
 	app.mount('#app');
