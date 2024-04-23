@@ -1,63 +1,13 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title>Characters</title>
-</head>
-<body>
-<h2>Characters</h2>
-<div id="app">
-
-	<label for="newCharacterName">New Character Name:</label>
-	<input type="text" v-model="newCharacter.name" @keyup.enter="addNewCharacter">
-
-	<h1>Favorite Characters</h1>
-	<ul>
-		<li v-for="favorite in favorites">{{ favorite }}</li>
-	</ul>
-
-	<h1>Characters</h1>
-	<p>Percent Light Side: {{ percentLightSide }}%</p>
-	<p v-if="characterNames.length === 0">No character data</p>
-	<p v-else>
-		<ul v-for="(character, index) in characterNames">
-			<li>{{ character.name }} - {{ character.isDark ? 'Dark Side' : 'Light Side' }} <button @click="favoriteCharacter(name, $event)">Favorite</button></li>
-		</ul>
-	</p>
-
-
-</div>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script>
-	// Vue 3
-	const { createApp } = Vue;
-
-	const app = createApp({
-		data: () => ({
-			characterNames: [{ name: 'Luke Skywalker', isDark: false }, { name: 'Darth Vader', isDark: true }, { name: 'Obi-Wan Kenobi', isDark: false }, { name: 'Yoda', isDark: false }],
-			favorites: [],
-			newCharacter: {
-				name: ''
-			}
-		}),
-			computed: {
-			  percentLightSide() {
-				  const lightSide = this.characterNames.filter(character => !character.isDark).length;
-				  return Math.round((lightSide / this.characterNames.length) * 100);
-				}
-			},
-		methods: {
-			favoriteCharacter(name, event) {
-				this.favorites.push(name);
-				event.target.disabled = true;
-			},
-			addNewCharacter() {
-				this.characterNames.push(this.newCharacter.name);
-				this.newCharacter.name = '';
-			}
-		}
-	});
-
-	app.mount('#app');
-</script>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+	</body>
 </html>
