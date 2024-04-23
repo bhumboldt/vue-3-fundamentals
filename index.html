@@ -16,10 +16,11 @@
 	</ul>
 
 	<h1>Characters</h1>
+	<p>Percent Light Side: {{ percentLightSide }}%</p>
 	<p v-if="characterNames.length === 0">No character data</p>
 	<p v-else>
-		<ul v-for="(name, index) in characterNames">
-			<li>{{ name }} <button @click="favoriteCharacter(name, $event)">Favorite</button></li>
+		<ul v-for="(character, index) in characterNames">
+			<li>{{ character.name }} - {{ character.isDark ? 'Dark Side' : 'Light Side' }} <button @click="favoriteCharacter(name, $event)">Favorite</button></li>
 		</ul>
 	</p>
 
@@ -32,12 +33,18 @@
 
 	const app = createApp({
 		data: () => ({
-			characterNames: ['Luke Skywalker', 'Darth Vader', 'Obi-Wan Kenobi', 'Yoda'],
+			characterNames: [{ name: 'Luke Skywalker', isDark: false }, { name: 'Darth Vader', isDark: true }, { name: 'Obi-Wan Kenobi', isDark: false }, { name: 'Yoda', isDark: false }],
 			favorites: [],
 			newCharacter: {
 				name: ''
 			}
 		}),
+			computed: {
+			  percentLightSide() {
+				  const lightSide = this.characterNames.filter(character => !character.isDark).length;
+				  return Math.round((lightSide / this.characterNames.length) * 100);
+				}
+			},
 		methods: {
 			favoriteCharacter(name, event) {
 				this.favorites.push(name);
