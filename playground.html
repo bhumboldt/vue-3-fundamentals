@@ -6,6 +6,17 @@
 	<body>
 		<h2>Hello Frontend Masters</h2>
 		<div id="app">
+			<h1>Counter</h1>
+			<p>{{ count }}</p>
+			<button v-on:click="incrementCount">Increment Count</button>
+
+			<div>
+				<label for="incrementAmount">Increment By:</label>
+				<input type="number" v-model="incrementAmount">
+			</div>
+
+			<hr />
+
 			<p v-if="message.length % 2 === 0">Even: {{ message }}</p>
 			<p v-else>Odd: {{ message }}</p>
 
@@ -15,14 +26,21 @@
 		</div>
 		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 		<script>
-				// Vue 3
+				// Vue 3, Options API
 			const { createApp } = Vue;
 
 			const app = createApp({
 					data() {
 						return {
+							incrementAmount: 1,
 							message: 'Hello it works',
-								listOfNumbers: [1, 2, 3, 4, 5]
+							listOfNumbers: [1, 2, 3, 4, 5],
+								count: 10
+						}
+					},
+					methods: {
+						incrementCount() {
+							this.count += this.incrementAmount;
 						}
 					}
 			});
