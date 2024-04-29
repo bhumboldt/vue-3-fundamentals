@@ -1,47 +1,59 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <h2>Characters</h2>
+  <div id="app">
 
-    <div class="wrapper">
-      <HelloWorld msg="HEYA" />
-    </div>
-  </header>
+    <label for="newCharacterName">New Character Name:</label>
+    <input type="text"
+           v-model="newCharacter.name"
+           @keyup.enter="addNewCharacter">
 
-  <main>
-    <TheWelcome />
-  </main>
+    <h1>Favorite Characters</h1>
+    <ul>
+      <li v-for="favorite in favorites">{{ favorite }}</li>
+    </ul>
+
+    <h1>Characters</h1>
+    <p>Percent Light Side: {{ percentLightSide }}%</p>
+    <p v-if="characterNames.length === 0">No character data</p>
+    <p v-else>
+      <ul v-for="(character, index) in characterNames">
+        <li>{{ character.name }} - {{ character.isDark ? 'Dark Side' : 'Light Side' }}
+          <button @click="favoriteCharacter(name, $event)">Favorite</button>
+        </li>
+      </ul>
+    </p>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+<script>
+// Vue 3
+export default {
+  data: () => ({
+    characterNames: [{ name: 'Luke Skywalker', isDark: false }, {
+      name: 'Darth Vader',
+      isDark: true
+    }, { name: 'Obi-Wan Kenobi', isDark: false }, { name: 'Yoda', isDark: false }],
+    favorites: [],
+    newCharacter: {
+      name: ''
+    }
+  }),
+  computed: {
+    percentLightSide() {
+      const lightSide = this.characterNames.filter(character => !character.isDark).length
+      return Math.round((lightSide / this.characterNames.length) * 100)
+    }
+  },
+  methods: {
+    favoriteCharacter(name, event) {
+      this.favorites.push(name)
+      event.target.disabled = true
+    },
+    addNewCharacter() {
+      this.characterNames.push(this.newCharacter.name)
+      this.newCharacter.name = ''
+    }
   }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
 }
-</style>
+</script>
