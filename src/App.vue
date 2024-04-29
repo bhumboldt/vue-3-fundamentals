@@ -1,39 +1,20 @@
-<template>
-  <h2>Characters</h2>
-  <div id="app">
-
-    <label for="newCharacterName">New Character Name:</label>
-    <input type="text"
-           v-model="newCharacter.name"
-           @keyup.enter="addNewCharacter">
-
-    <h1>Favorite Characters</h1>
-    <ul>
-      <li v-for="favorite in favorites">{{ favorite }}</li>
-    </ul>
-
-    <h1>Characters</h1>
-    <p>Percent Light Side: {{ percentLightSide }}%</p>
-    <p v-if="characterNames.length === 0">No character data</p>
-    <p v-else>
-      <ul v-for="(character, index) in characterNames">
-        <li>{{ character.name }} - {{ character.isDark ? 'Dark Side' : 'Light Side' }}
-          <button @click="favoriteCharacter(name, $event)">Favorite</button>
-        </li>
-      </ul>
-    </p>
-  </div>
-</template>
-
-
 <script>
 // Vue 3
+import Counter from '@/components/Counter.vue'
+import Statistics from '@/components/Statistics.vue'
+
 export default {
+  components: { Statistics, Counter },
   data: () => ({
-    characterNames: [{ name: 'Luke Skywalker', isDark: false }, {
-      name: 'Darth Vader',
-      isDark: true
-    }, { name: 'Obi-Wan Kenobi', isDark: false }, { name: 'Yoda', isDark: false }],
+    characterNames: [
+      { name: 'Luke Skywalker', isDark: false },
+      {
+        name: 'Darth Vader',
+        isDark: true
+      },
+      { name: 'Obi-Wan Kenobi', isDark: false },
+      { name: 'Yoda', isDark: false }
+    ],
     favorites: [],
     newCharacter: {
       name: ''
@@ -41,7 +22,7 @@ export default {
   }),
   computed: {
     percentLightSide() {
-      const lightSide = this.characterNames.filter(character => !character.isDark).length
+      const lightSide = this.characterNames.filter((character) => !character.isDark).length
       return Math.round((lightSide / this.characterNames.length) * 100)
     }
   },
@@ -57,3 +38,28 @@ export default {
   }
 }
 </script>
+
+<template>
+  <h2>Characters</h2>
+  <div id="app">
+    <Counter />
+    <hr />
+    <label for="newCharacterName">New Character Name:</label>
+    <input type="text" v-model="newCharacter.name" @keyup.enter="addNewCharacter" />
+
+    <Statistics :characters="characterNames" />
+
+    <h1>Favorite Characters</h1>
+    <ul>
+      <li v-for="favorite in favorites">{{ favorite }}</li>
+    </ul>
+
+    <h1>Characters</h1>
+    <ul>
+      <li v-for="character in characterNames">
+        <span>{{ character.name }}</span>
+        <button @click="favoriteCharacter(character.name, $event)">Favorite</button>
+      </li>
+    </ul>
+  </div>
+</template>
