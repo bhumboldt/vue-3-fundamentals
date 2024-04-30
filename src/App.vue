@@ -3,9 +3,10 @@
 import Counter from '@/components/Counter.vue'
 import Statistics from '@/components/Statistics.vue'
 import CharacterCard from '@/components/CharacterCard.vue'
+import BaseLayout from '@/components/BaseLayout.vue'
 
 export default {
-  components: { CharacterCard, Statistics, Counter },
+  components: { BaseLayout, CharacterCard, Statistics, Counter },
   data: () => ({
     characterNames: [
       { name: 'Luke Skywalker', isDark: false },
@@ -42,25 +43,31 @@ export default {
 </script>
 
 <template>
-  <h2>Characters</h2>
-  <div id="app">
-    <Counter />
-    <hr />
-    <label for="newCharacterName">New Character Name:</label>
-    <input type="text" v-model="newCharacter.name" @keyup.enter="addNewCharacter" />
+  <BaseLayout>
+    <template v-slot:one>
+      <label for="newCharacterName">New Character Name:</label>
+      <input type="text" v-model="newCharacter.name" @keyup.enter="addNewCharacter" />
+    </template>
+    <template v-slot:two>
+      <h2>Characters</h2>
+      <div id="app">
+        <Counter />
+        <hr />
 
-    <Statistics :characters="characters" />
+        <Statistics :characters="characters" />
 
-    <h1>Favorite Characters</h1>
-    <ul>
-      <li v-for="favorite in favorites">{{ favorite }}</li>
-    </ul>
+        <h1>Favorite Characters</h1>
+        <ul>
+          <li v-for="favorite in favorites">{{ favorite }}</li>
+        </ul>
 
-    <h1>Characters</h1>
-    <ul>
-      <li v-for="character in characters">
-        <CharacterCard :character="character" @favorited="favoriteCharacter($event)" />
-      </li>
-    </ul>
-  </div>
+        <h1>Characters</h1>
+        <ul>
+          <li v-for="character in characters">
+            <CharacterCard :character="character" @favorited="favoriteCharacter($event)" />
+          </li>
+        </ul>
+      </div>
+    </template>
+  </BaseLayout>
 </template>
