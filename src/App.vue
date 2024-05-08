@@ -12,8 +12,8 @@ export default {
   <h1>New App</h1>
 
   <Suspense>
-    <Pokedex />
-
+    <!--    <Pokedex />-->
+    <UserPage />
     <!--    #fallback or v-slot:fallback -->
     <template #fallback>
       <p>Loading...</p>

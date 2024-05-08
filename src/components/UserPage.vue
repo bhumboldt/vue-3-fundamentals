@@ -1,22 +1,13 @@
 <script>
 export default {
-  setup() {
-    const regionName = 'kanto'
+  async setup() {
+    const users = await fetch('https://jsonplaceholder.typicode.com/users').then((res) =>
+      res.json()
+    )
 
-    return { regionName }
-  },
-  data: () => ({
-    users: []
-  }),
-  methods: {
-    async fetchUsers() {
-      this.users = await fetch('https://jsonplaceholder.typicode.com/users').then((res) =>
-        res.json()
-      )
+    return {
+      users
     }
-  },
-  created() {
-    console.log(this.regionName)
   }
 }
 </script>
