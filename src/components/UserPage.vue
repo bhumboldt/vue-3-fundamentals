@@ -1,5 +1,10 @@
 <script>
 export default {
+  setup() {
+    const regionName = 'kanto'
+
+    return { regionName }
+  },
   data: () => ({
     users: []
   }),
@@ -11,7 +16,7 @@ export default {
     }
   },
   created() {
-    this.fetchUsers()
+    console.log(this.regionName)
   }
 }
 </script>

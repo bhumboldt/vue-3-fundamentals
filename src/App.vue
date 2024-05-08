@@ -1,23 +1,9 @@
 <script>
-// https://pokeapi.co/api/v2/pokemon?limit=151
-
 import UserPage from '@/components/UserPage.vue'
+import Pokedex from '@/components/Pokedex.vue'
 
 export default {
-  components: { UserPage },
-  data: () => ({
-    pokedex: [1, 2, 3]
-  }),
-  methods: {
-    async fetchPokemon() {
-      this.pokedex = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151').then((res) =>
-        res.json()
-      )
-    }
-  },
-  created() {
-    this.fetchPokemon()
-  }
+  components: { UserPage, Pokedex }
 }
 </script>
 
@@ -25,7 +11,16 @@ export default {
 <template>
   <h1>New App</h1>
 
-  <user-page></user-page>
+  <Suspense>
+    <Pokedex />
+
+    <!--    #fallback or v-slot:fallback -->
+    <template #fallback>
+      <p>Loading...</p>
+    </template>
+  </Suspense>
+
+  <!--  <user-page></user-page>-->
 </template>
 
 <style></style>
